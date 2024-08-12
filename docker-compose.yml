@@ -1,0 +1,108 @@
+# version: "3.6"
+# services:
+#   ojs:
+#     build: .
+#     container_name: dezojs
+#     ports: 
+#       - 8181:80
+#     environment: 
+#       - PKP_DATABASE_DRIVER=mysqli
+#       - PKP_DATABASE_HOST=localhost
+#       - PKP_DATABASE_USERNAME=root
+#       - PKP_DATABASE_PASSWORD=
+#       - PKP_DATABASE_NAME=libraryojs
+#   mysql:
+#     image: mysql:latest
+#     ports:
+#        - "3306:3306"
+#     volumes:
+#       - ./ojs_db_data:/var/lib/mysql
+#     environment: 
+#       - MYSQL_DATABASE=ojs
+#       - MYSQL_USER=ojs
+#       - MYSQL_PASSWORD=ojs
+#       - MYSQL_ROOT_PASSWORD=root
+
+# volumes: 
+#   db_data:
+
+
+
+
+
+
+# version: '3'
+
+# services:
+#   www:
+#     image: php:apache
+#     volumes:
+#       - "./:/var/www/html"
+#     ports:
+#       -80:80
+#       -443:443 # for future ssl traffic
+      
+
+
+version: '3'
+
+services:
+  ojs:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=ojs
+      - DB_USERNAME=ojs
+      - DB_PASSWORD=ojs
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=ojs
+      - MYSQL_DATABASE=ojs
+      - MYSQL_USER=ojs
+      - MYSQL_PASSWORD=ojs
+    volumes:
+      - ./ojs_db_data:/var/lib/mysql
+      
+volumes:
+  ojs_db_data:
+
+
+# version: '3'
+
+# services:
+#   ojs:
+#     build: .
+#     container_name: practiceojs
+#     ports:
+#       - "8080:80"
+#     environment:
+#       - MYSQL_HOST=mysql
+#       - MYSQL_DATABASE=ojs
+#       - MYSQL_USER=ojs_user
+#       - MYSQL_PASSWORD=ojs_password
+#     depends_on:
+#       - mysql
+
+#   mysql:
+#     image: mysql:8.0.2
+#     container_name: mysql
+#     ports:
+#       - "3306:3306"
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=
+#       - MYSQL_DATABASE=libraryojs
+#       - MYSQL_USER=ojs
+#       - MYSQL_PASSWORD=
+#     volumes:
+#       - ./ojs_db_data:/var/lib/mysql
+
+
+
